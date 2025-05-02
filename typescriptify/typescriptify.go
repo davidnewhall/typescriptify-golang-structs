@@ -16,6 +16,7 @@ const (
 	tsDocTag            = "ts_doc"
 	tsTransformTag      = "ts_transform"
 	tsType              = "ts_type"
+	tsName              = "ts_name"
 	jsonTag             = "json"
 	tsConvertValuesFunc = `convertValues(a: any, classs: any, asMap: boolean = false): any {
 	if (!a) {
@@ -41,6 +42,7 @@ type TypeOptions struct {
 	TSType      string
 	TSDoc       string
 	TSTransform string
+	TSName      string
 }
 
 // StructType stores settings for transforming one Golang struct.
@@ -520,6 +522,7 @@ func (t *TypeScriptify) getFieldOptions(structType reflect.Type, field reflect.S
 		TSTransform: field.Tag.Get(tsTransformTag),
 		TSType:      field.Tag.Get(tsType),
 		TSDoc:       field.Tag.Get(tsDocTag),
+		TSName:      field.Tag.Get(tsName),
 	}
 
 	overrides := []TypeOptions{}
@@ -546,6 +549,9 @@ func (t *TypeScriptify) getFieldOptions(structType reflect.Type, field reflect.S
 		}
 		if o.TSType != "" {
 			opts.TSType = o.TSType
+		}
+		if o.TSName != "" {
+			opts.TSName = o.TSName
 		}
 	}
 
